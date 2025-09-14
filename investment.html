@@ -111,6 +111,11 @@
       margin: 20px auto;
       display: block;
     }
+    #qrPage p {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0a7c3e;
+    }
     .back-btn {
       background: #0a7c3e;
       color: white;
@@ -370,7 +375,8 @@
   <!-- QR PAYMENT PAGE -->
   <div id="qrPage">
     <h2>Scan & Pay</h2>
-    <img src="qr.png" alt="QR Code">
+    <img src="" alt="QR Code">
+    <p>Pay: <span id="qrAmount">₹0</span></p>
     <button class="back-btn" onclick="goBack()">Back</button>
   </div>
 
@@ -419,12 +425,23 @@
     }
 
     function buyNow(planKey) {
-      const upiId = "chahatkumar321298.rzp@rxairtel";
+      const upiId = "chahatkumar321298.rzp@rxairtel"; // your UPI
       const name = "Chahat Kumar";
       const amount = FIXED_AMOUNTS[planKey];
-      // Use only standard UPI link
-      const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
-      window.location.href = upiUrl;
+      const transactionId = "RF5uDzrp1cfwoyqrv2";
+      const mcCode = "5462";
+
+      // Generate UPI URL with transaction info
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${transactionId}&tr=${mcCode}`;
+
+      goToQR();
+
+      // Generate QR dynamically
+      const qrImg = document.querySelector('#qrPage img');
+      qrImg.src = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(upiUrl)}&chs=250x250&chld=L|0`;
+
+      // Show amount
+      document.getElementById('qrAmount').textContent = `₹${amount}`;
     }
   </script>
 

@@ -422,20 +422,9 @@
       const upiId = "9304712413@ybl";
       const name = "Aman Bharti";
       const amount = FIXED_AMOUNTS[planKey];
-      // Try UPI intent (works for most Android apps)
-      const intentUrl = `intent://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR#Intent;scheme=upi;end`;
-      // Fallback to standard UPI URL
+      // Use only standard UPI link
       const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
-
-      // Try intent first, fallback if not supported
-      if (navigator.userAgent.toLowerCase().includes('android')) {
-        window.location.href = intentUrl;
-        setTimeout(() => {
-          window.location.href = upiUrl;
-        }, 1500);
-      } else {
-        window.location.href = upiUrl;
-      }
+      window.location.href = upiUrl;
     }
   </script>
 

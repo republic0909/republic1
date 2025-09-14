@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Plans</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }
+
+    /* HEADER */
+    .header {
+      background: #0a7c3e;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: white;
+      border-bottom: 2px solid #ddd;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #555;
+    }
+    .tab.active {
+      color: #0a7c3e;
+      border-bottom: 3px solid #0a7c3e;
+    }
+
+    /* PLAN CARD */
+    .plans {
+      display: none;
+    }
+    .plans.active {
+      display: block;
+    }
+    .plan {
+      background: white;
+      margin: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      overflow: hidden;
+    }
+    .plan-header {
+      background: #eaf6ec;
+      color: #0a7c3e;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .plan-header button {
+      background: #0a7c3e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+    }
+    .plan-body {
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .plan-body img {
+      width: 100px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .plan-details {
+      flex: 1;
+    }
+    .plan-details div {
+      margin: 4px 0;
+      font-size: 14px;
+    }
+    .price {
+      font-weight: bold;
+      color: #d9534f;
+    }
+    .reward {
+      color: #0a7c3e;
+      font-weight: bold;
+    }
+
+    /* QR PAGE */
+    #qrPage {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    #qrPage img {
+      width: 250px;
+      margin: 20px auto;
+      display: block;
+    }
+    .back-btn {
+      background: #0a7c3e;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">Investment Plans</div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('fixed')">Fixed Fund</div>
+    <div class="tab" onclick="showTab('welfare')">Welfare Fund</div>
+    <div class="tab" onclick="showTab('activity')">Activity Fund</div>
+  </div>
+
+  <!-- FIXED FUND -->
+  <div class="plans active" id="fixed">
+    <!-- VIP1 -->
+    <div class="plan">
+      <div class="plan-header">Buy and Upgrade VIP1 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/solar-panel.png" alt="VIP1">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹290.00</span></div>
+          <div>Revenue: 47 Days</div>
+          <div>Daily Earnings: <span class="reward">₹234.9</span></div>
+          <div>Total Revenue: ₹11040.3</div>
+        </div>
+      </div>
+    </div>
+    <!-- VIP2 -->
+    <div class="plan">
+      <div class="plan-header">Buy and Upgrade VIP2 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/wind-turbine.png" alt="VIP2">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹1990.00</span></div>
+          <div>Revenue: 47 Days</div>
+          <div>Daily Earnings: <span class="reward">₹1631.6</span></div>
+          <div>Total Revenue: ₹76694.6</div>
+        </div>
+      </div>
+    </div>
+    <!-- More VIP3-6 -->
+    <div class="plan">
+      <div class="plan-header">Buy and Upgrade VIP3 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/hydro-power.png" alt="VIP3">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹4990.00</span></div>
+          <div>Revenue: 47 Days</div>
+          <div>Daily Earnings: <span class="reward">₹4200.0</span></div>
+          <div>Total Revenue: ₹197400.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Buy and Upgrade VIP4 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/factory.png" alt="VIP4">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹9990.00</span></div>
+          <div>Revenue: 47 Days</div>
+          <div>Daily Earnings: <span class="reward">₹8300.0</span></div>
+          <div>Total Revenue: ₹390100.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Buy and Upgrade VIP5 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/coal.png" alt="VIP5">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹19990.00</span></div>
+          <div>Revenue: 47 Days</div>
+          <div>Daily Earnings: <span class="reward">₹16500.0</span></div>
+          <div>Total Revenue: ₹775500.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Buy and Upgrade VIP6 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/nuclear-power-plant.png" alt="VIP6">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹49990.00</span></div>
+          <div>Revenue: 47 Days</div>
+          <div>Daily Earnings: <span class="reward">₹41200.0</span></div>
+          <div>Total Revenue: ₹1936400.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WELFARE FUND -->
+  <div class="plans" id="welfare">
+    <!-- 6 different welfare investments -->
+    <div class="plan">
+      <div class="plan-header">Community Solar Project <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/solar-panel.png" alt="Solar">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹1200.00</span></div>
+          <div>Revenue: 60 Days</div>
+          <div>Daily Earnings: <span class="reward">₹95.0</span></div>
+          <div>Total Revenue: ₹5700.0</div>
+        </div>
+      </div>
+    </div>
+    <!-- Add 5 more welfare plans -->
+    <div class="plan">
+      <div class="plan-header">Village Wind Power <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/wind-turbine.png" alt="Wind">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹3200.00</span></div>
+          <div>Revenue: 60 Days</div>
+          <div>Daily Earnings: <span class="reward">₹260.0</span></div>
+          <div>Total Revenue: ₹15600.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Water Pumping Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/hydro-power.png" alt="Hydro">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹8000.00</span></div>
+          <div>Revenue: 60 Days</div>
+          <div>Daily Earnings: <span class="reward">₹700.0</span></div>
+          <div>Total Revenue: ₹42000.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Rural Electrification <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/factory.png" alt="Factory">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹15000.00</span></div>
+          <div>Revenue: 60 Days</div>
+          <div>Daily Earnings: <span class="reward">₹1400.0</span></div>
+          <div>Total Revenue: ₹84000.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Bio Energy Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/coal.png" alt="Bio">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹25000.00</span></div>
+          <div>Revenue: 60 Days</div>
+          <div>Daily Earnings: <span class="reward">₹2400.0</span></div>
+          <div>Total Revenue: ₹144000.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Smart City Energy <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/nuclear-power-plant.png" alt="City">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹40000.00</span></div>
+          <div>Revenue: 60 Days</div>
+          <div>Daily Earnings: <span class="reward">₹3900.0</span></div>
+          <div>Total Revenue: ₹234000.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY FUND -->
+  <div class="plans" id="activity">
+    <!-- 6 different activity investments -->
+    <div class="plan">
+      <div class="plan-header">Green Startup Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/solar-panel.png" alt="Startup">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹500.00</span></div>
+          <div>Revenue: 30 Days</div>
+          <div>Daily Earnings: <span class="reward">₹40.0</span></div>
+          <div>Total Revenue: ₹1200.0</div>
+        </div>
+      </div>
+    </div>
+    <!-- Add 5 more activity funds -->
+    <div class="plan">
+      <div class="plan-header">Tech Innovation Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/wind-turbine.png" alt="Tech">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹2000.00</span></div>
+          <div>Revenue: 30 Days</div>
+          <div>Daily Earnings: <span class="reward">₹180.0</span></div>
+          <div>Total Revenue: ₹5400.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Youth Training Program <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/hydro-power.png" alt="Youth">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹5000.00</span></div>
+          <div>Revenue: 30 Days</div>
+          <div>Daily Earnings: <span class="reward">₹450.0</span></div>
+          <div>Total Revenue: ₹13500.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Sports Energy Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/factory.png" alt="Sports">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹10000.00</span></div>
+          <div>Revenue: 30 Days</div>
+          <div>Daily Earnings: <span class="reward">₹900.0</span></div>
+          <div>Total Revenue: ₹27000.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Festival Bonus Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/coal.png" alt="Festival">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹20000.00</span></div>
+          <div>Revenue: 30 Days</div>
+          <div>Daily Earnings: <span class="reward">₹1900.0</span></div>
+          <div>Total Revenue: ₹57000.0</div>
+        </div>
+      </div>
+    </div>
+    <div class="plan">
+      <div class="plan-header">Innovation Challenge Fund <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-body">
+        <img src="https://img.icons8.com/color/96/nuclear-power-plant.png" alt="Innovation">
+        <div class="plan-details">
+          <div>Each Price: <span class="price">₹30000.00</span></div>
+          <div>Revenue: 30 Days</div>
+          <div>Daily Earnings: <span class="reward">₹2800.0</span></div>
+          <div>Total Revenue: ₹84000.0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR PAYMENT PAGE -->
+  <div id="qrPage">
+    <h2>Scan & Pay</h2>
+    <img src="qr.png" alt="QR Code">
+    <button class="back-btn" onclick="goBack()">Back</button>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.plans').forEach(plan => plan.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+
+    function goToQR() {
+      document.querySelectorAll('.plans, .tabs, .header').forEach(el => el.style.display = 'none');
+      document.getElementById('qrPage').style.display = 'block';
+    }
+
+    function goBack() {
+      document.querySelectorAll('.plans, .tabs, .header').forEach(el => el.style.display = '');
+      document.getElementById('qrPage').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>

@@ -377,7 +377,7 @@
   <script>
     // Fixed amounts for each plan
     const FIXED_AMOUNTS = {
-      vip1: 1,
+      vip1: 290,
       vip2: 990,
       vip3: 4990,
       vip4: 9990,
@@ -422,7 +422,20 @@
       const upiId = "9304712413@ybl";
       const name = "republic";
       const amount = FIXED_AMOUNTS[planKey];
-      window.location.href = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+      // Try UPI intent (works for most Android apps)
+      const intentUrl = `intent://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR#Intent;scheme=upi;end`;
+      // Fallback to standard UPI URL
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
+
+      // Try intent first, fallback if not supported
+      if (navigator.userAgent.toLowerCase().includes('android')) {
+        window.location.href = intentUrl;
+        setTimeout(() => {
+          window.location.href = upiUrl;
+        }, 1500);
+      } else {
+        window.location.href = upiUrl;
+      }
     }
   </script>
 

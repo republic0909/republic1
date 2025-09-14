@@ -137,7 +137,7 @@
   <div class="plans active" id="fixed">
     <!-- VIP1 -->
     <div class="plan">
-      <div class="plan-header">Buy and Upgrade VIP1 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-header">Buy and Upgrade VIP1 <button onclick="buyNow(290)">Buy</button></div>
       <div class="plan-body">
         <img src="https://img.icons8.com/color/96/solar-panel.png" alt="VIP1">
         <div class="plan-details">
@@ -150,7 +150,7 @@
     </div>
     <!-- VIP2 -->
     <div class="plan">
-      <div class="plan-header">Buy and Upgrade VIP2 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-header">Buy and Upgrade VIP2 <button onclick="buyNow(1990)">Buy</button></div>
       <div class="plan-body">
         <img src="https://img.icons8.com/color/96/wind-turbine.png" alt="VIP2">
         <div class="plan-details">
@@ -163,7 +163,7 @@
     </div>
     <!-- More VIP3-6 -->
     <div class="plan">
-      <div class="plan-header">Buy and Upgrade VIP3 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-header">Buy and Upgrade VIP3 <button onclick="buyNow(4990)">Buy</button></div>
       <div class="plan-body">
         <img src="https://img.icons8.com/color/96/hydro-power.png" alt="VIP3">
         <div class="plan-details">
@@ -175,7 +175,7 @@
       </div>
     </div>
     <div class="plan">
-      <div class="plan-header">Buy and Upgrade VIP4 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-header">Buy and Upgrade VIP4 <button onclick="buyNow(9990)">Buy</button></div>
       <div class="plan-body">
         <img src="https://img.icons8.com/color/96/factory.png" alt="VIP4">
         <div class="plan-details">
@@ -187,7 +187,7 @@
       </div>
     </div>
     <div class="plan">
-      <div class="plan-header">Buy and Upgrade VIP5 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-header">Buy and Upgrade VIP5 <button onclick="buyNow(19990)">Buy</button></div>
       <div class="plan-body">
         <img src="https://img.icons8.com/color/96/coal.png" alt="VIP5">
         <div class="plan-details">
@@ -199,7 +199,7 @@
       </div>
     </div>
     <div class="plan">
-      <div class="plan-header">Buy and Upgrade VIP6 <button onclick="goToQR()">Buy</button></div>
+      <div class="plan-header">Buy and Upgrade VIP6 <button onclick="buyNow(49990)">Buy</button></div>
       <div class="plan-body">
         <img src="https://img.icons8.com/color/96/nuclear-power-plant.png" alt="VIP6">
         <div class="plan-details">
@@ -376,11 +376,17 @@
   </div>
 
   <script>
+    const FIXED_AMOUNT = 500; // Fixed amount definition
+
     function showTab(tabId) {
       document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.plans').forEach(plan => plan.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
-      document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+      document.querySelectorAll('.tab').forEach(tab => {
+        if (tab.textContent.replace(/\s/g, '').toLowerCase().includes(tabId)) {
+          tab.classList.add('active');
+        }
+      });
     }
 
     function goToQR() {
@@ -391,6 +397,12 @@
     function goBack() {
       document.querySelectorAll('.plans, .tabs, .header').forEach(el => el.style.display = '');
       document.getElementById('qrPage').style.display = 'none';
+    }
+
+    function buyNow() {
+      const upiId = "7564868407@ybl";
+      const name = "aman";
+      window.location.href = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(name)}&am=${FIXED_AMOUNT}&cu=INR`;
     }
   </script>
 

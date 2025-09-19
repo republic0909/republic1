@@ -1,417 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Investment Rewards</title>
-  <style>
-    body {
-      font-family: "Segoe UI", Arial, sans-serif;
-      margin: 0;
-      background: #f2f3f7;
-      color: #333;
-      padding-bottom: 70px; /* for bottom nav */
-    }
-
-    /* HEADER */
-    .header {
-      background: #2f9145;
-      color: #fff;
-      padding: 18px;
-      border-radius: 0 0 20px 20px;
-      position: relative;
-    }
-
-    .header h2 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .header p {
-      margin: 6px 0;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .header .coins {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 45px;
-    }
-
-    .query-box {
-      margin-top: 12px;
-      background: #fff;
-      border-radius: 20px;
-      padding: 5px 12px;
-      display: flex;
-      align-items: center;
-    }
-
-    .query-box input {
-      border: none;
-      outline: none;
-      flex: 1;
-      font-size: 13px;
-    }
-
-    /* CARD GRID */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      padding: 15px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 15px;
-      border-radius: 15px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.12);
-      text-align: center;
-    }
-
-    .card h3 {
-      margin: 0;
-      font-size: 15px;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    .card span {
-      font-size: 13px;
-      color: #666;
-    }
-
-    /* BANNER */
-    .banner {
-      margin: 10px;
-      background: #fff5db;
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #ff8c00;
-      text-align: center;
-    }
-
-    /* SIGN IN BOX */
-    .signin, .rewards, .invite, .promotion, .tasks, .faq {
-      margin: 15px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.12);
-    }
-
-    .signin h3, .rewards h3, .invite h3, .promotion h3, .tasks h3, .faq h3 {
-      margin: 0 0 10px 0;
-      font-size: 15px;
-    }
-
-    .signin p {
-      font-size: 13px;
-      margin: 0;
-    }
-
-    .signin button {
-      margin-top: 10px;
-      padding: 10px 15px;
-      background: #2f9145;
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 14px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    /* REWARDS LIST */
-    .reward-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 14px;
-    }
-
-    .reward-item:last-child { border-bottom: none; }
-
-    .reward-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .reward-left img { width: 28px; height: 28px; }
-
-    /* INVITE SECTION */
-    .invite .link-box {
-      display: flex;
-      background: #f2f2f2;
-      padding: 8px;
-      border-radius: 8px;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-    }
-
-    .invite button {
-      margin-top: 10px;
-      background: #ff8c00;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    /* PROMOTION */
-    .promotion p {
-      font-size: 13px;
-      margin: 5px 0;
-    }
-
-    /* TASKS */
-    .task-item {
-      margin-bottom: 10px;
-    }
-
-    .task-title {
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-
-    .progress-bar {
-      background: #eee;
-      border-radius: 8px;
-      overflow: hidden;
-      height: 10px;
-    }
-
-    .progress-fill {
-      background: #2f9145;
-      height: 10px;
-      width: 40%;
-    }
-
-    /* FAQ */
-    .faq-item {
-      margin-bottom: 10px;
-    }
-
-    .faq-question {
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .faq-answer {
-      font-size: 13px;
-      display: none;
-      margin-top: 5px;
-      color: #555;
-    }
-
-    /* BOTTOM NAVIGATION */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: #fff;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 8px 0;
-      box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
-    }
-
-    .bottom-nav button {
-      background: none;
-      border: none;
-      font-size: 12px;
-      color: #555;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .bottom-nav button.active {
-      color: #2f9145;
-      font-weight: bold;
-    }
-
-    .bottom-nav button span {
-      font-size: 18px;
-    }
-
-    /* RESPONSIVE TEXT */
-    @media (max-width: 600px) {
-      .header h2 { font-size: 16px; }
-      .header p { font-size: 12px; }
-      .card h3 { font-size: 14px; }
-      .card span { font-size: 12px; }
-      .signin button, .invite button { font-size: 13px; }
-      .reward-item { font-size: 13px; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- HEADER -->
-  <div class="header">
-    <h2>The next reward for an upcoming mission</h2>
-    <p>If your referred friend upgrades to VIP1, you will get 35% commission draw and one chance of lucky wheel draw!</p>
-    <div class="coins">💰</div>
-    <div class="query-box">
-      <input type="text" placeholder="Reward amount ₹ Click to enter the query">
-    </div>
-  </div>
-
-  <!-- CARDS -->
-  <div class="cards">
-    <div class="card"><h3>Recharge</h3><span>₹20.00</span></div>
-    <div class="card"><h3>Withdrawal</h3><span>₹0.00</span></div>
-    <div class="card"><h3>Team</h3><span>Team size: 0</span></div>
-    <div class="card"><h3>Help</h3><span>Online Service</span></div>
-  </div>
-
-  <!-- BANNER -->
-  <div class="banner">
-    🎡 Spinning the wheel of fate – You'll be the next lucky one 🎉
-  </div>
-
-  <!-- SIGN IN -->
-  <div class="signin">
-    <h3>Sign in to receive rewards</h3>
-    <p>Daily check-in can receive ₹0.00</p>
-    <button onclick="signIn()">Sign in now</button>
-  </div>
-
-  <!-- REWARDS -->
-  <div class="rewards">
-    <h3>Cumulative task rewards</h3>
-    <div class="reward-item"><div class="reward-left"><img src="https://img.icons8.com/emoji/48/coin-emoji.png"/>Inviting activation of 2</div><span>₹200.00</span></div>
-    <div class="reward-item"><div class="reward-left"><img src="https://img.icons8.com/emoji/48/coin-emoji.png"/>Inviting activation of 70</div><span>₹3500.00</span></div>
-    <div class="reward-item"><div class="reward-left"><img src="https://img.icons8.com/emoji/48/coin-emoji.png"/>Inviting activation of 200</div><span>₹15000.00</span></div>
-  </div>
-
-  <!-- INVITE FRIENDS -->
-  <div class="invite">
-    <h3>Invite Friends</h3>
-    <div class="link-box">
-      <span id="refLink">https://app.example.com/ref123</span>
-      <button onclick="copyLink()">📋 Copy</button>
-    </div>
-    <button>Share Invitation</button>
-  </div>
-
-  <!-- PROMOTION -->
-  <div class="promotion">
-    <h3>🔥 Limited Time Promotion</h3>
-    <p>Recharge ₹500 and get ₹50 bonus instantly.</p>
-    <p>Offer valid till Sunday midnight.</p>
-  </div>
-
-  <!-- TASKS -->
-  <div class="tasks">
-    <h3>VIP Tasks</h3>
-    <div class="task-item">
-      <div class="task-title">Complete 5 trades</div>
-      <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
-    </div>
-    <div class="task-item">
-      <div class="task-title">Invite 3 friends</div>
-      <div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div>
-    </div>
-    <div class="task-item">
-      <div class="task-title">Daily login streak</div>
-      <div class="progress-bar"><div class="progress-fill" style="width: 90%"></div></div>
-    </div>
-  </div>
-
-  <!-- FAQ -->
-  <div class="faq">
-    <h3>❓ Frequently Asked Questions</h3>
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">How do I withdraw earnings?</div>
-      <div class="faq-answer">Go to the Withdrawal section, enter your bank details, and request payout.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">What is VIP1 upgrade?</div>
-      <div class="faq-answer">VIP1 upgrade requires minimum recharge of ₹500 and unlocks 35% commission.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question" onclick="toggleFaq(this)">How to invite friends?</div>
-      <div class="faq-answer">Copy your referral link and share with friends. You earn rewards when they activate.</div>
-    </div>
-  </div>
-
-  <!-- BOTTOM NAV -->
-  <div class="bottom-nav">
-    <button class="active" onclick="goTo('home')"><span>🏠</span>Home</button>
-    <button onclick="goTo('task')"><span>💹</span>Investment</button>
-    <button onclick="goTo('team')"><span>👥</span>Team</button>
-    <button onclick="goTo('wallet')"><span>💼</span>Wallet</button>
-    <button onclick="goTo('mine')"><span>👤</span>Mine</button>
-  </div>
-
-  <script>
-    function signIn() {
-      alert("✅ You checked in successfully!");
-    }
-
-    function copyLink() {
-      const link = document.getElementById("refLink").innerText;
-      navigator.clipboard.writeText(link);
-      alert("📋 Referral link copied!");
-    }
-
-    function toggleFaq(element) {
-      const answer = element.nextElementSibling;
-      answer.style.display = answer.style.display === "block" ? "none" : "block";
-    }
-
-    // Bottom nav active state
-    const navButtons = document.querySelectorAll(".bottom-nav button");
-    navButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        navButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-      });
-    });
-
-    // Navigation function
-    function goTo(page) {
-      // Example navigation logic
-      // Replace with your actual page URLs or section scrolls
-      switch(page) {
-        case 'home':
-          window.location.href = 'index.html';
-          break;
-        case 'task':
-          window.location.href = 'investment.html';
-          break;
-        case 'team':
-          window.location.href = 'team.html';
-          break;
-        case 'wallet':
-          window.location.href = 'wallet.html';
-          break;
-        case 'mine':
-          window.location.href = 'mine.html';
-          break;
-        default:
-          window.location.href = 'index.html';
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login | REPUBLIC</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="templates/css/style.css">
+    <style>
+      /* Optional: additional styling */
+      body {
+        background-image: url('templates/img/bg-farm.jpg'); /* optional background */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
       }
-    }
-  </script>
 
-</body>
+      .card {
+        background-color: rgba(255, 255, 255, 0.95);
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+      <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+        <h2 class="mb-4 text-center">Get into Republic</h2>
+
+        <!-- Alert (optional, hidden by default) -->
+        <div id="loginAlert" class="alert alert-danger d-none" role="alert">
+          Invalid email or password. Please try again.
+        </div>
+
+        <form id="loginForm">
+          <div class="mb-3">
+            <label for="username" class="form-label">Phone Number</label>
+            <input type="number" class="form-control" id="username" placeholder="Enter your phone number" maxlength="10" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+          </div>
+         <button type="submit" class="btn btn-success w-100">Login</button>
+        </form>
+
+        <div class="mt-3 text-center">
+         
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Wait for the DOM to be fully loaded before running the script
+      document.addEventListener('DOMContentLoaded', (event) => {
+        const loginForm = document.getElementById('loginForm');
+
+        // Add a listener for the form submission
+        loginForm.addEventListener('submit', function(e) {
+          // Prevent the default form submission behavior (reloading the page)
+          e.preventDefault();
+
+          // Redirect to index.html
+          window.location.href = 'home1.html';
+        });
+      });
+    </script>
+  </body>
 </html>

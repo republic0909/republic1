@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Republic Investment Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f2f5;
+    }
+    .view {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    .view.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bottom-nav button.active {
+      color: #2563eb; /* A modern blue */
+      transform: scale(1.1);
+    }
+    .bottom-nav button {
+      transition: all 0.2s ease-in-out;
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+      padding: 0 1rem;
+    }
+    .faq-answer.open {
+      max-height: 200px; /* Adjust as needed */
+      padding: 1rem 1rem 0.5rem;
+    }
+    .faq-question i {
+        transition: transform 0.3s ease-out;
+    }
+    .faq-question.open i {
+        transform: rotate(180deg);
+    }
+    #toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: rgba(0,0,0,0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-size: 14px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.21, 1.02, 0.73, 1);
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="pb-20">
+
+  <!-- DYNAMIC HEADER -->
+  <header id="main-header" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 sticky top-0 z-50 shadow-lg flex items-center justify-between">
+      <button id="back-button" class="hidden text-white"><i class="fas fa-arrow-left text-xl"></i></button>
+      <h1 class="text-xl font-bold text-center flex-grow" id="header-title">Home</h1>
+      <div class="w-6"></div> <!-- Spacer for centering title -->
+  </header>
+  
+  <main class="p-4">
+    <!-- HOME VIEW -->
+    <div id="home-view" class="view space-y-4">
+      <div class="header-content bg-gradient-to-r from-green-500 to-emerald-600 text-white p-5 rounded-b-3xl -mx-4 -mt-4 shadow-md relative">
+        <h2 class="text-lg font-semibold">The next reward for an upcoming mission</h2>
+        <p class="text-sm mt-1">If your referred friend upgrades to VIP1, you will get 35% commission draw!</p>
+        <div class="absolute top-5 right-5 text-4xl animate-pulse">💰</div>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+        <div onclick="showView('recharge-view')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+          <h3 class="font-bold text-gray-800">Recharge</h3><span class="text-green-600 font-semibold">₹20.00</span>
+        </div>
+        <div onclick="showView('withdrawal-view')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+          <h3 class="font-bold text-gray-800">Withdrawal</h3><span class="text-red-500 font-semibold">₹0.00</span>
+        </div>
+        <div onclick="showView('team-view')" class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+          <h3 class="font-bold text-gray-800">Team</h3><span class="text-gray-600">Team size: 15</span>
+        </div>
+         <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+          <h3 class="font-bold text-gray-800">Help</h3><span class="text-gray-600">Online Service</span>
+        </div>
+      </div>
+
+      <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-lg shadow-sm text-center">
+        <p class="font-bold">🎡 Spinning the wheel of fate – You'll be the next lucky one 🎉</p>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <h3 class="font-bold text-gray-800 mb-2">Sign in to receive rewards</h3>
+        <p class="text-sm text-gray-600">Daily check-in can receive ₹7.00</p>
+        <button onclick="showToast('✅ You checked in successfully!')" class="mt-3 w-full bg-green-500 text-white py-2 rounded-lg font-semibold hover:bg-green-600 transition-colors">Sign in now</button>
+      </div>
+        
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <h3 class="font-bold text-gray-800 mb-3">Cumulative task rewards</h3>
+        <div class="space-y-3 text-sm">
+            <div class="flex justify-between items-center"><span><i class="fas fa-coins text-yellow-500 mr-2"></i>Inviting activation of 2</span><span class="font-semibold text-green-600">₹200.00</span></div>
+            <div class="flex justify-between items-center"><span><i class="fas fa-coins text-yellow-500 mr-2"></i>Inviting activation of 70</span><span class="font-semibold text-green-600">₹3500.00</span></div>
+            <div class="flex justify-between items-center"><span><i class="fas fa-coins text-yellow-500 mr-2"></i>Inviting activation of 200</span><span class="font-semibold text-green-600">₹15000.00</span></div>
+        </div>
+      </div>
+        
+       <div class="bg-white p-4 rounded-xl shadow-sm">
+            <h3 class="font-bold text-gray-800 mb-2">Invite Friends</h3>
+            <div class="flex items-center bg-gray-100 p-2 rounded-lg">
+                <span id="refLinkHome" class="text-sm text-gray-700 truncate">https://app.example.com/ref123</span>
+                <button onclick="copyLink('refLinkHome')" class="ml-auto bg-blue-500 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-600">Copy</button>
+            </div>
+             <button class="mt-3 w-full bg-yellow-500 text-white py-2 rounded-lg font-semibold hover:bg-yellow-600 transition-colors">Share Invitation</button>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm">
+            <h3 class="font-bold text-orange-500 mb-2">🔥 Limited Time Promotion</h3>
+            <p class="text-sm text-gray-600">Recharge ₹500 and get ₹50 bonus instantly.</p>
+            <p class="text-sm text-gray-600">Offer valid till Sunday midnight.</p>
+        </div>
+        
+        <div class="bg-white p-4 rounded-xl shadow-sm">
+            <h3 class="font-bold text-gray-800 mb-3">VIP Tasks</h3>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-1">Complete 5 trades</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-green-500 h-2.5 rounded-full" style="width: 60%"></div></div>
+                </div>
+                 <div>
+                    <p class="text-sm font-semibold text-gray-700 mb-1">Invite 3 friends</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5"><div class="bg-green-500 h-2.5 rounded-full" style="width: 33%"></div></div>
+                </div>
+            </div>
+        </div>
+
+       <div class="bg-white p-4 rounded-xl shadow-sm faq-section">
+          <h3 class="font-bold text-gray-800 mb-2">❓ Frequently Asked Questions</h3>
+          <div class="border-t">
+              <div class="faq-item py-3 border-b">
+                  <div class="faq-question flex justify-between items-center cursor-pointer">
+                      <span class="font-semibold text-gray-700">How do I withdraw earnings?</span>
+                      <i class="fas fa-chevron-down"></i>
+                  </div>
+                  <div class="faq-answer text-gray-600 text-sm"><p>Go to the Withdrawal section, enter your bank details, and request payout.</p></div>
+              </div>
+              <div class="faq-item py-3 border-b">
+                  <div class="faq-question flex justify-between items-center cursor-pointer">
+                      <span class="font-semibold text-gray-700">What is VIP1 upgrade?</span>
+                      <i class="fas fa-chevron-down"></i>
+                  </div>
+                  <div class="faq-answer text-gray-600 text-sm"><p>VIP1 upgrade requires minimum recharge of ₹290 and unlocks higher commission rates.</p></div>
+              </div>
+              <div class="faq-item py-3">
+                  <div class="faq-question flex justify-between items-center cursor-pointer">
+                      <span class="font-semibold text-gray-700">How to invite friends?</span>
+                      <i class="fas fa-chevron-down"></i>
+                  </div>
+                  <div class="faq-answer text-gray-600 text-sm"><p>Copy your referral link from the Home or Team page and share it with friends. You earn rewards when they sign up and invest.</p></div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <!-- INVESTMENT VIEW -->
+    <div id="investment-view" class="view">
+        <div class="tabs flex justify-around bg-white rounded-lg shadow-sm mb-4">
+            <button data-tab="fixed" class="tab-btn flex-1 p-3 font-semibold text-gray-500 border-b-2 border-transparent">Fixed Fund</button>
+            <button data-tab="welfare" class="tab-btn flex-1 p-3 font-semibold text-gray-500 border-b-2 border-transparent">Welfare Fund</button>
+            <button data-tab="activity" class="tab-btn flex-1 p-3 font-semibold text-gray-500 border-b-2 border-transparent">Activity Fund</button>
+        </div>
+        <div id="fixed" class="plan-content space-y-4"></div>
+        <div id="welfare" class="plan-content space-y-4" style="display:none;"></div>
+        <div id="activity" class="plan-content space-y-4" style="display:none;"></div>
+    </div>
+
+    <!-- TEAM VIEW -->
+    <div id="team-view" class="view">
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-4">
+            <h3 class="font-bold text-gray-800 mb-2">My Referral Link</h3>
+            <div class="flex items-center bg-gray-100 p-2 rounded-lg">
+                <span id="refLinkTeam" class="text-sm text-gray-700 truncate">https://app.example.com/ref123</span>
+                <button onclick="copyLink('refLinkTeam')" class="ml-auto bg-blue-500 text-white px-3 py-1 text-sm rounded-md hover:bg-blue-600">Copy</button>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4 mb-4 text-center">
+            <div class="bg-white p-3 rounded-xl shadow-sm"><h4 class="font-semibold text-gray-700">Team Size</h4><p class="text-lg font-bold">15</p></div>
+            <div class="bg-white p-3 rounded-xl shadow-sm"><h4 class="font-semibold text-gray-700">Total Commission</h4><p class="text-lg font-bold text-green-600">₹0</p></div>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-sm">
+            <h3 class="font-bold text-gray-800 mb-2">Team Members (Level 1)</h3>
+            <div class="space-y-2 text-sm">
+                <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg"><span>User: ***1234</span><span class="font-semibold text-green-600">+ ₹50.00</span></div>
+                <div class="flex justify-between items-center p-2 bg-gray-50 rounded-lg"><span>User: ***5678</span><span class="font-semibold text-green-600">+ ₹35.50</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WALLET VIEW -->
+    <div id="wallet-view" class="view">
+        <div class="bg-white rounded-xl shadow-sm p-6 text-center">
+            <h3 class="text-gray-600 font-semibold">Total Balance</h3>
+            <p class="text-4xl font-bold text-gray-800 my-2">₹0.00</p>
+            <div class="grid grid-cols-2 gap-4 mt-6">
+                <button onclick="showView('recharge-view')" class="bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors">Recharge</button>
+                <button onclick="showView('withdrawal-view')" class="bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors">Withdraw</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MINE VIEW -->
+    <div id="mine-view" class="view">
+        <div class="bg-white rounded-xl shadow-sm p-4 flex items-center gap-4 mb-4">
+            <i class="fas fa-user-circle text-5xl text-gray-400"></i>
+            <div>
+                <p class="font-bold text-gray-800">User: +91 *******234</p>
+                <p class="text-sm text-gray-600">Balance: <span class="font-semibold">₹0.00</span></p>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl shadow-sm">
+            <a href="#" class="flex items-center justify-between p-4 border-b hover:bg-gray-50"><span><i class="fas fa-credit-card w-6 mr-2 text-gray-500"></i>Bank Card Management</span><i class="fas fa-chevron-right text-gray-400"></i></a>
+            <a href="#" class="flex items-center justify-between p-4 border-b hover:bg-gray-50"><span><i class="fas fa-history w-6 mr-2 text-gray-500"></i>Transaction History</span><i class="fas fa-chevron-right text-gray-400"></i></a>
+            <a href="#" class="flex items-center justify-between p-4 border-b hover:bg-gray-50"><span><i class="fas fa-download w-6 mr-2 text-gray-500"></i>App Download</span><i class="fas fa-chevron-right text-gray-400"></i></a>
+            <a href="#" class="flex items-center justify-between p-4 hover:bg-gray-50"><span><i class="fas fa-sign-out-alt w-6 mr-2 text-red-500"></i>Logout</span><i class="fas fa-chevron-right text-gray-400"></i></a>
+        </div>
+    </div>
+
+    <!-- RECHARGE VIEW -->
+    <div id="recharge-view" class="view">
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <label for="rechargeAmount" class="block font-semibold text-gray-700 mb-2">Enter Recharge Amount</label>
+            <input type="number" id="rechargeAmount" class="w-full border-gray-300 rounded-lg p-3 text-2xl font-bold text-center" placeholder="₹ 0.00">
+            <div class="grid grid-cols-3 gap-2 my-4">
+                <button onclick="setRecharge(500)" class="bg-gray-200 p-2 rounded-lg hover:bg-green-200">₹500</button>
+                <button onclick="setRecharge(1000)" class="bg-gray-200 p-2 rounded-lg hover:bg-green-200">₹1000</button>
+                <button onclick="setRecharge(5000)" class="bg-gray-200 p-2 rounded-lg hover:bg-green-200">₹5000</button>
+            </div>
+            <button onclick="processRecharge()" class="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600">Recharge Now</button>
+        </div>
+    </div>
+    
+    <!-- WITHDRAWAL VIEW -->
+    <div id="withdrawal-view" class="view">
+         <div class="bg-white rounded-xl shadow-sm p-6">
+             <label for="withdrawAmount" class="block font-semibold text-gray-700 mb-2">Enter Withdrawal Amount</label>
+             <input type="number" id="withdrawAmount" class="w-full border-gray-300 rounded-lg p-3 text-2xl font-bold text-center mb-4" placeholder="₹ 0.00">
+             <div class="bg-gray-100 p-4 rounded-lg mb-4 text-sm">
+                 <p class="font-bold">Withdraw to:</p>
+                 <p>Bank: HDFC Bank</p>
+                 <p>A/C: ******1234</p>
+             </div>
+             <button onclick="showToast('Withdrawal request submitted!')" class="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600">Submit Request</button>
+         </div>
+    </div>
+
+  </main>
+  
+  <nav class="bottom-nav fixed bottom-0 left-0 w-full bg-white shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex justify-around py-2">
+    <button data-view="home-view" data-title="Home" class="nav-btn text-gray-600"><i class="fas fa-home text-xl"></i><span class="text-xs block">Home</span></button>
+    <button data-view="investment-view" data-title="Investment" class="nav-btn text-gray-600"><i class="fas fa-chart-line text-xl"></i><span class="text-xs block">Investment</span></button>
+    <button data-view="team-view" data-title="My Team" class="nav-btn text-gray-600"><i class="fas fa-users text-xl"></i><span class="text-xs block">Team</span></button>
+    <button data-view="wallet-view" data-title="My Wallet" class="nav-btn text-gray-600"><i class="fas fa-wallet text-xl"></i><span class="text-xs block">Wallet</span></button>
+    <button data-view="mine-view" data-title="My Profile" class="nav-btn text-gray-600"><i class="fas fa-user text-xl"></i><span class="text-xs block">Mine</span></button>
+  </nav>
+
+  <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
+      <div class="bg-white rounded-2xl p-6 text-center w-11/12 max-w-sm transform scale-95 transition-transform duration-300">
+          <h2 class="text-2xl font-bold mb-2 text-gray-800">Scan & Pay</h2>
+          <p id="qrPlanName" class="text-gray-700 font-semibold"></p>
+          <p class="text-gray-600 mt-2 mb-1">Please enter this exact amount:</p>
+          <p id="qrAmount" class="text-4xl font-bold text-green-600 mb-4"></p>
+          <img id="qrCodeImg" src="qr.png" alt="QR Code" class="w-64 h-auto mx-auto rounded-lg">
+          <button onclick="closeModal()" class="mt-6 w-full bg-red-500 text-white py-2.5 rounded-lg font-semibold hover:bg-red-600">Close</button>
+      </div>
+  </div>
+
+  <div id="toast"></div>
+  
+  <script>
+    const investmentData = {
+      fixed: [
+        { name: 'VIP1', price: 290, days: 47, daily: 290, icon: 'fa-solar-panel' },
+        { name: 'VIP2', price: 990, days: 47, daily: 990, icon: 'fa-wind' },
+        { name: 'VIP3', price: 4990, days: 47, daily: 4990, icon: 'fa-water' },
+        { name: 'VIP4', price: 9990, days: 47, daily: 9990, icon: 'fa-industry' },
+        { name: 'VIP5', price: 19990, days: 47, daily: 19990, icon: 'fa-satellite-dish' },
+        { name: 'VIP6', price: 29990, days: 47, daily: 29990, icon: 'fa-atom' }
+      ],
+      welfare: [
+        { name: 'Community Solar', price: 1200, days: 60, daily: 1200, icon: 'fa-solar-panel' },
+        { name: 'Village Wind Power', price: 2200, days: 60, daily: 2200, icon: 'fa-wind' },
+        { name: 'Water Pumping Fund', price: 8000, days: 60, daily: 8000, icon: 'fa-water' },
+        { name: 'Rural Electrification', price: 15000, days: 60, daily: 15000, icon: 'fa-industry' },
+        { name: 'Bio Energy Fund', price: 25000, days: 60, daily: 25000, icon: 'fa-seedling' },
+        { name: 'Smart City Energy', price: 30000, days: 60, daily: 30000, icon: 'fa-city' }
+      ],
+      activity: [
+        { name: 'Green Startup Fund', price: 500, days: 30, daily: 500, icon: 'fa-leaf' },
+        { name: 'Tech Innovation Fund', price: 1000, days: 30, daily: 1000, icon: 'fa-lightbulb' },
+        { name: 'Youth Training Program', price: 2000, days: 30, daily: 2000, icon: 'fa-users' },
+        { name: 'Sports Energy Fund', price: 10000, days: 30, daily: 10000, icon: 'fa-futbol' },
+        { name: 'Festival Bonus Fund', price: 20000, days: 30, daily: 20000, icon: 'fa-gifts' },
+        { name: 'Innovation Challenge', price: 30000, days: 30, daily: 30000, icon: 'fa-trophy' }
+      ]
+    };
+
+    let viewHistory = ['home-view'];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      populatePlans();
+      setupEventListeners();
+      showView('home-view', true);
+      document.querySelector('.tab-btn[data-tab="fixed"]').classList.add('text-blue-600', 'border-blue-600');
+    });
+
+    function createPlanHTML(plan) {
+      const planJson = JSON.stringify(plan).replace(/"/g, '&quot;');
+      return `
+        <div class="plan bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="plan-header bg-gray-50 text-gray-800 p-3 font-bold flex justify-between items-center">
+            <span>Buy ${plan.name}</span>
+            <button onclick='openModal(${planJson})' class="bg-green-500 text-white text-sm px-4 py-1.5 rounded-md hover:bg-green-600">Buy</button>
+          </div>
+          <div class="plan-body p-4 flex items-center gap-4">
+            <i class="fas ${plan.icon} text-4xl text-green-500 w-12 text-center"></i>
+            <div class="plan-details flex-1 text-sm">
+              <div>Price: <span class="font-bold text-red-500">₹${plan.price.toFixed(2)}</span></div>
+              <div>Cycle: <span class="font-semibold">${plan.days} Days</span></div>
+              <div>Daily Earnings: <span class="font-bold text-green-600">₹${plan.daily}</span></div>
+              <div>Total Revenue: <span class="font-bold">₹${plan.price * (plan.name.includes('VIP') ? 1 : 1)}</span></div>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function populatePlans() {
+        for (const category in investmentData) {
+            document.getElementById(category).innerHTML = investmentData[category].map(createPlanHTML).join('');
+        }
+    }
+
+    function setupEventListeners() {
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view, true)));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => showTab(btn.dataset.tab)));
+      document.querySelectorAll('.faq-question').forEach(q => q.addEventListener('click', () => {
+        q.classList.toggle('open');
+        q.nextElementSibling.classList.toggle('open');
+      }));
+      document.getElementById('back-button').addEventListener('click', goBack);
+    }
+
+    function showView(viewId, isMainView = false) {
+      if (isMainView) {
+        viewHistory = [viewId];
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelector(`.nav-btn[data-view="${viewId}"]`).classList.add('active');
+      } else {
+        if (viewHistory[viewHistory.length - 1] !== viewId) {
+             viewHistory.push(viewId);
+        }
+      }
+
+      document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      
+      const backButton = document.getElementById('back-button');
+      backButton.classList.toggle('hidden', viewHistory.length <= 1);
+
+      let title;
+      if (isMainView) {
+        title = document.querySelector(`.nav-btn[data-view="${viewId}"]`).dataset.title;
+      } else {
+        const titles = {'recharge-view': 'Recharge', 'withdrawal-view': 'Withdrawal'};
+        title = titles[viewId] || 'Republic';
+      }
+      document.getElementById('header-title').textContent = title;
+    }
+
+    function goBack() {
+        if (viewHistory.length > 1) {
+            viewHistory.pop();
+            const previousViewId = viewHistory[viewHistory.length - 1];
+            const isMain = !!document.querySelector(`.nav-btn[data-view="${previousViewId}"]`);
+            showView(previousViewId, isMain);
+        }
+    }
+
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(tab => tab.classList.remove('text-blue-600', 'border-blue-600'));
+        document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('text-blue-600', 'border-blue-600');
+        document.querySelectorAll('.plan-content').forEach(content => content.style.display = 'none');
+        document.getElementById(tabId).style.display = 'block';
+    }
+
+    function openModal(details) {
+        document.getElementById('qrPlanName').textContent = `Payment for: ${details.name}`;
+        document.getElementById('qrAmount').textContent = `₹${details.price.toFixed(2)}`;
+        const modal = document.getElementById('qrModal');
+        modal.classList.remove('pointer-events-none', 'opacity-0');
+        modal.querySelector('div').classList.remove('scale-95');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('qrModal');
+        modal.classList.add('pointer-events-none', 'opacity-0');
+        modal.querySelector('div').classList.add('scale-95');
+    }
+    
+    function setRecharge(amount) {
+        document.getElementById('rechargeAmount').value = amount;
+    }
+
+    function processRecharge() {
+        const amount = document.getElementById('rechargeAmount').value;
+        if (amount && amount > 0) {
+            openModal({name: 'Account Recharge', price: parseFloat(amount)});
+        } else {
+            showToast('Please enter a valid amount.');
+        }
+    }
+
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+    
+    function copyLink(elementId) {
+      navigator.clipboard.writeText(document.getElementById(elementId).innerText)
+        .then(() => showToast('📋 Referral link copied!'));
+    }
+  </script>
+</body>
+</html>
+
+
